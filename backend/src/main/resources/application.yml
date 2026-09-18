@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ai-knowledge-assistant-backend
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:knowledge_assistant}}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:${REDIS_HOST:localhost}}
+      port: ${SPRING_DATA_REDIS_PORT:${REDIS_PORT:6379}}
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+app:
+  jwt:
+    secret: ${APP_JWT_SECRET:9a78bf234c90de45f871234098bc1234567890abcdef1234567890abcdef}
+    access-token-expiration-ms: 900000 # 15 minutes (ADR-01)
+    refresh-token-expiration-ms: 604800000 # 7 days (ADR-01)
+  storage:
+    upload-dir: ${SHARED_STORAGE_PATH:/shared/storage}
+  ai-service:
+    base-url: ${AI_SERVICE_BASE_URL:http://localhost:8001}
